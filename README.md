@@ -1,6 +1,6 @@
 # Entity Vault
 
-A Snowflake-native identity resolution, encoding, and enrichment platform — similar in concept to commercial identity resolution and entity matching services, but abstracted to work with any entity type (products, people, locations, or any other sensitive entity).
+A Snowflake-native entity resolution, encoding, and enrichment platform — similar in concept to commercial identity resolution and entity matching services, but abstracted to work with any entity type (products, people, locations, or any other sensitive entity).
 
 ## What Does This Solve?
 
