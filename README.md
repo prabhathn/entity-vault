@@ -1,6 +1,6 @@
 # Entity Vault
 
-A Snowflake-native identity resolution, encoding, and enrichment platform — similar in concept to LiveRamp and Datavant, but abstracted to work with any entity type (products, people, locations, or any other sensitive entity).
+A Snowflake-native identity resolution, encoding, and enrichment platform — similar in concept to commercial identity resolution and entity matching services, but abstracted to work with any entity type (products, people, locations, or any other sensitive entity).
 
 ## What Does This Solve?
 
@@ -155,7 +155,7 @@ The backend supports three authentication methods:
 ## Documentation
 
 Open `docs/index.html` in a browser for comprehensive documentation including:
-- Industry context (LiveRamp, Datavant comparison)
+- Industry context (identity resolution and entity matching services)
 - Architecture deep dive
 - Use case walkthroughs
 - Future directions (ontology layer, Postgres backend)

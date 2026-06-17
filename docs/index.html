@@ -437,8 +437,8 @@
             <li><a href="#overview">Overview</a></li>
             <li><a href="#industry-context" class="section-title">Industry Context</a></li>
             <li class="sub-items">
-                <a href="#liveramp">LiveRamp</a>
-                <a href="#datavant">Datavant</a>
+                <a href="#advertising-identity">Advertising Identity Services</a>
+                <a href="#healthcare-matching">Healthcare Matching Services</a>
                 <a href="#differentiation">Differentiation</a>
             </li>
             <li><a href="#architecture" class="section-title">Architecture</a></li>
@@ -528,27 +528,27 @@
     <section id="industry-context">
         <h2>Industry Context</h2>
 
-        <div id="liveramp">
-            <h3>LiveRamp</h3>
-            <p>LiveRamp is an identity resolution platform that connects disparate data systems across the advertising and marketing ecosystem. At its core, LiveRamp operates as <strong>middleware</strong> that maps between partner-specific identifier domains.</p>
+        <div id="advertising-identity">
+            <h3>Advertising Identity Resolution Services</h3>
+            <p>Commercial identity resolution platforms in the advertising and marketing ecosystem operate as <strong>middleware</strong> that maps between partner-specific identifier domains. Key patterns include:</p>
             <ul>
-                <li><strong>RampID:</strong> A deterministic, people-based identifier that links across devices, cookies, and CRM systems</li>
+                <li><strong>Persistent Identifiers:</strong> A deterministic, people-based identifier that links across devices, cookies, and CRM systems</li>
                 <li><strong>Transcoding:</strong> Translation between partner key spaces (e.g., Partner A's encoded ID &rarr; Partner B's encoded ID) without exposing the underlying identity</li>
-                <li><strong>Snowflake Native App:</strong> LiveRamp's integration runs as a Snowflake Native App, enabling identity resolution without data leaving the customer's Snowflake account</li>
-                <li><strong>Data Marketplace:</strong> LiveRamp operates a marketplace where data providers can monetize audiences via encoded segments</li>
+                <li><strong>Cloud-Native Integration:</strong> Running as native applications within cloud data platforms, enabling identity resolution without data leaving the customer's environment</li>
+                <li><strong>Data Marketplace:</strong> Operating marketplaces where data providers can monetize audiences via encoded segments</li>
             </ul>
             <div class="callout">
-                <p><strong>Key Insight:</strong> LiveRamp is fundamentally a middleware company that connects disparate identity systems. Its value lies in the network effect&mdash;the more partners connected, the more valuable transcoding becomes.</p>
+                <p><strong>Key Insight:</strong> These services are fundamentally middleware companies that connect disparate identity systems. Their value lies in the network effect&mdash;the more partners connected, the more valuable transcoding becomes.</p>
             </div>
         </div>
 
-        <div id="datavant">
-            <h3>Datavant</h3>
-            <p>Datavant provides healthcare-focused tokenization that enables cross-dataset patient matching without sharing PII. Their approach is specifically designed for the regulatory constraints of HIPAA-governed healthcare data.</p>
+        <div id="healthcare-matching">
+            <h3>Healthcare Entity Matching Services</h3>
+            <p>Healthcare-focused matching platforms provide tokenization that enables cross-dataset patient matching without sharing PII. Their approach is specifically designed for the regulatory constraints of HIPAA-governed healthcare data.</p>
             <ul>
                 <li><strong>Tokenization:</strong> Replaces PII fields with encrypted tokens that are deterministic within a dataset but cannot be reversed to recover the original value</li>
                 <li><strong>Matching Strategy:</strong> Uses ternary agreement vectors combined with machine learning models to determine match confidence across tokenized datasets</li>
-                <li><strong>Privacy Architecture:</strong> Evaluated Bloom filters as a matching mechanism but chose tokenization for superior privacy guarantees and audit trail capabilities</li>
+                <li><strong>Privacy Architecture:</strong> Evaluates approaches like Bloom filters for matching but often chooses tokenization for superior privacy guarantees and audit trail capabilities</li>
                 <li><strong>Healthcare Focus:</strong> Purpose-built for patient matching across claims, EHR, lab, and pharmacy datasets</li>
             </ul>
         </div>
@@ -559,8 +559,8 @@
                 <thead>
                     <tr>
                         <th>Dimension</th>
-                        <th>LiveRamp</th>
-                        <th>Datavant</th>
+                        <th>Advertising Identity Services</th>
+                        <th>Healthcare Matching Services</th>
                         <th>Entity Vault</th>
                     </tr>
                 </thead>
@@ -579,8 +579,8 @@
                     </tr>
                     <tr>
                         <td>Dependencies</td>
-                        <td>LiveRamp infrastructure</td>
-                        <td>Datavant infrastructure</td>
+                        <td>Vendor infrastructure</td>
+                        <td>Vendor infrastructure</td>
                         <td><strong>None external</strong></td>
                     </tr>
                     <tr>
