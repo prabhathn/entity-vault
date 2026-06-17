@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entity Vault Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f1923;
+            --bg-secondary: #162230;
+            --bg-tertiary: #1e2d3d;
+            --bg-card: #1a2836;
+            --text-primary: #e8edf2;
+            --text-secondary: #a0b1c2;
+            --text-muted: #6b8299;
+            --accent: #29b5e8;
+            --accent-dim: #1e8ab0;
+            --accent-glow: rgba(41, 181, 232, 0.15);
+            --border: #2a3f52;
+            --border-light: #344d63;
+            --code-bg: #0c1219;
+            --success: #4ecdc4;
+            --warning: #f7b731;
+            --danger: #fc5c65;
+            --sidebar-width: 280px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            z-index: 1000;
+            padding: 24px 0;
+        }
+
+        .sidebar-header {
+            padding: 0 24px 24px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+        }
+
+        .sidebar-header h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: -0.3px;
+        }
+
+        .sidebar-header .subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+        }
+
+        .sidebar nav > ul > li {
+            margin-bottom: 2px;
+        }
+
+        .sidebar nav a {
+            display: block;
+            padding: 8px 24px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 13px;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .sidebar nav a:hover {
+            color: var(--text-primary);
+            background: var(--bg-tertiary);
+            border-left-color: var(--accent);
+        }
+
+        .sidebar nav a.section-title {
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-muted);
+            padding-top: 16px;
+            pointer-events: none;
+        }
+
+        .sidebar nav .sub-items a {
+            padding-left: 36px;
+            font-size: 12.5px;
+        }
+
+        /* Main Content */
+        .main {
+            margin-left: var(--sidebar-width);
+            padding: 48px 64px;
+            max-width: 960px;
+        }
+
+        section {
+            margin-bottom: 72px;
+        }
+
+        h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 36px;
+            margin-bottom: 12px;
+        }
+
+        h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-top: 24px;
+            margin-bottom: 8px;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: var(--text-secondary);
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        ul, ol {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        li strong {
+            color: var(--accent);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card h4 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+
+        .card p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Code blocks */
+        code {
+            font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+            font-size: 13px;
+            background: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--accent);
+        }
+
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-secondary);
+            font-size: 12.5px;
+        }
+
+        /* Diagram */
+        .diagram {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+            overflow-x: auto;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            color: var(--text-secondary);
+            white-space: pre;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+            font-size: 13.5px;
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            color: var(--accent);
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        tr:nth-child(even) td {
+            background: var(--bg-card);
+        }
+
+        /* Tags / Badges */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .badge-accent {
+            background: var(--accent-glow);
+            color: var(--accent);
+            border: 1px solid var(--accent-dim);
+        }
+
+        .badge-success {
+            background: rgba(78, 205, 196, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(78, 205, 196, 0.3);
+        }
+
+        .badge-warning {
+            background: rgba(247, 183, 49, 0.15);
+            color: var(--warning);
+            border: 1px solid rgba(247, 183, 49, 0.3);
+        }
+
+        /* Tier indicator */
+        .tier {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-right: 8px;
+        }
+
+        .tier-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .tier-1 { background: var(--success); }
+        .tier-2 { background: var(--accent); }
+        .tier-4 { background: var(--warning); }
+
+        /* Callout */
+        .callout {
+            border-left: 4px solid var(--accent);
+            background: var(--accent-glow);
+            padding: 16px 20px;
+            border-radius: 0 8px 8px 0;
+            margin: 24px 0;
+        }
+
+        .callout p {
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        /* Hero section */
+        .hero {
+            margin-bottom: 48px;
+            padding-bottom: 48px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero h1 {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero .tagline {
+            font-size: 18px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .hero .version {
+            margin-top: 16px;
+        }
+
+        /* Flow arrows */
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .flow-step-num {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .flow-step-content {
+            flex: 1;
+        }
+
+        .flow-step-content p {
+            margin: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .main {
+                margin-left: 0;
+                padding: 32px 24px;
+            }
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-primary);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--border-light);
+        }
+    </style>
+</head>
+<body>
+
+<aside class="sidebar">
+    <div class="sidebar-header">
+        <h1>Entity Vault</h1>
+        <div class="subtitle">Technical Documentation</div>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#industry-context" class="section-title">Industry Context</a></li>
+            <li class="sub-items">
+                <a href="#liveramp">LiveRamp</a>
+                <a href="#datavant">Datavant</a>
+                <a href="#differentiation">Differentiation</a>
+            </li>
+            <li><a href="#architecture" class="section-title">Architecture</a></li>
+            <li class="sub-items">
+                <a href="#schemas">Schema Design</a>
+                <a href="#resolution-strategy">Resolution Strategy</a>
+                <a href="#encoding">HMAC Encoding</a>
+                <a href="#policy-engine">Policy Engine</a>
+                <a href="#arch-diagram">Diagram</a>
+            </li>
+            <li><a href="#use-cases" class="section-title">Use Cases</a></li>
+            <li class="sub-items">
+                <a href="#uc-golden-record">Golden Record</a>
+                <a href="#uc-resolution">Resolution</a>
+                <a href="#uc-encoding">Encoding</a>
+                <a href="#uc-transcoding">Transcoding</a>
+                <a href="#uc-enrichment">Enrichment Out</a>
+                <a href="#uc-groups">Create Group</a>
+                <a href="#uc-contributions">Contributions</a>
+            </li>
+            <li><a href="#data-model" class="section-title">Data Model</a></li>
+            <li class="sub-items">
+                <a href="#key-tables">Key Tables</a>
+                <a href="#classification">Metadata Classification</a>
+            </li>
+            <li><a href="#api-ui" class="section-title">API &amp; UI</a></li>
+            <li class="sub-items">
+                <a href="#fastapi">FastAPI Backend</a>
+                <a href="#react-ui">React Frontend</a>
+                <a href="#demo-mode">Demo Mode</a>
+            </li>
+            <li><a href="#future" class="section-title">Future Directions</a></li>
+            <li class="sub-items">
+                <a href="#ontology-layer">Ontology Layer</a>
+                <a href="#postgres-backend">Snowflake Postgres</a>
+                <a href="#marketplace-scaling">Marketplace Scaling</a>
+                <a href="#multi-entity">Multi-Entity Resolution</a>
+            </li>
+        </ul>
+    </nav>
+</aside>
+
+<main class="main">
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>Entity Vault</h1>
+        <p class="tagline">Privacy-preserving entity resolution and controlled data sharing, built entirely on Snowflake.</p>
+        <div class="version">
+            <span class="badge badge-accent">Snowflake Native</span>
+            <span class="badge badge-success">Open Architecture</span>
+        </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <section id="overview">
+        <h2>Overview</h2>
+
+        <h3>What is the Entity Vault?</h3>
+        <p>Entity Vault is a Snowflake-native platform for resolving, encoding, and sharing entity data across organizational boundaries without exposing raw identifiers. It provides a canonical identity layer where any entity type&mdash;people, companies, products, locations&mdash;can be resolved to a golden record, encoded with partner-specific irreversible keys, and shared under fine-grained policy controls.</p>
+
+        <h3>Business Problem</h3>
+        <div class="card-grid">
+            <div class="card">
+                <h4>Fragmented Entity Data</h4>
+                <p>Organizations maintain disconnected representations of the same entities across systems. Customer "John Smith" exists as 47 different records with no canonical truth.</p>
+            </div>
+            <div class="card">
+                <h4>Cross-Partner Correlation Risk</h4>
+                <p>Sharing a common identifier with multiple partners enables unauthorized cross-correlation. If Partner A and Partner B both receive the same key, they can merge datasets without consent.</p>
+            </div>
+            <div class="card">
+                <h4>Lack of Controlled Sharing</h4>
+                <p>No mechanism exists to share enriched entity metadata while enforcing consent, suppression, and clearance policies at the field level.</p>
+            </div>
+        </div>
+
+        <h3>Key Value Propositions</h3>
+        <ul>
+            <li><strong>Privacy-Preserving:</strong> All external-facing identifiers are one-way HMAC hashes. Raw PII never leaves the vault.</li>
+            <li><strong>Partner-Specific Encoding:</strong> Each partner receives a unique, deterministic key derived from a namespace-scoped HMAC. Cross-partner correlation is architecturally impossible.</li>
+            <li><strong>Policy-Gated Access:</strong> Consent records, suppression lists, and clearance levels govern every data flow. No data moves without explicit policy authorization.</li>
+        </ul>
+    </section>
+
+    <!-- INDUSTRY CONTEXT -->
+    <section id="industry-context">
+        <h2>Industry Context</h2>
+
+        <div id="liveramp">
+            <h3>LiveRamp</h3>
+            <p>LiveRamp is an identity resolution platform that connects disparate data systems across the advertising and marketing ecosystem. At its core, LiveRamp operates as <strong>middleware</strong> that maps between partner-specific identifier domains.</p>
+            <ul>
+                <li><strong>RampID:</strong> A deterministic, people-based identifier that links across devices, cookies, and CRM systems</li>
+                <li><strong>Transcoding:</strong> Translation between partner key spaces (e.g., Partner A's encoded ID &rarr; Partner B's encoded ID) without exposing the underlying identity</li>
+                <li><strong>Snowflake Native App:</strong> LiveRamp's integration runs as a Snowflake Native App, enabling identity resolution without data leaving the customer's Snowflake account</li>
+                <li><strong>Data Marketplace:</strong> LiveRamp operates a marketplace where data providers can monetize audiences via encoded segments</li>
+            </ul>
+            <div class="callout">
+                <p><strong>Key Insight:</strong> LiveRamp is fundamentally a middleware company that connects disparate identity systems. Its value lies in the network effect&mdash;the more partners connected, the more valuable transcoding becomes.</p>
+            </div>
+        </div>
+
+        <div id="datavant">
+            <h3>Datavant</h3>
+            <p>Datavant provides healthcare-focused tokenization that enables cross-dataset patient matching without sharing PII. Their approach is specifically designed for the regulatory constraints of HIPAA-governed healthcare data.</p>
+            <ul>
+                <li><strong>Tokenization:</strong> Replaces PII fields with encrypted tokens that are deterministic within a dataset but cannot be reversed to recover the original value</li>
+                <li><strong>Matching Strategy:</strong> Uses ternary agreement vectors combined with machine learning models to determine match confidence across tokenized datasets</li>
+                <li><strong>Privacy Architecture:</strong> Evaluated Bloom filters as a matching mechanism but chose tokenization for superior privacy guarantees and audit trail capabilities</li>
+                <li><strong>Healthcare Focus:</strong> Purpose-built for patient matching across claims, EHR, lab, and pharmacy datasets</li>
+            </ul>
+        </div>
+
+        <div id="differentiation">
+            <h3>How Entity Vault Differs</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Dimension</th>
+                        <th>LiveRamp</th>
+                        <th>Datavant</th>
+                        <th>Entity Vault</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Entity Type</td>
+                        <td>People (consumers)</td>
+                        <td>People (patients)</td>
+                        <td><strong>Any entity type</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Platform</td>
+                        <td>Proprietary + Native App</td>
+                        <td>Proprietary SaaS</td>
+                        <td><strong>100% Snowflake</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Dependencies</td>
+                        <td>LiveRamp infrastructure</td>
+                        <td>Datavant infrastructure</td>
+                        <td><strong>None external</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Extensibility</td>
+                        <td>Closed network</td>
+                        <td>Closed network</td>
+                        <td><strong>Open contribution marketplace</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Industry</td>
+                        <td>Advertising / Marketing</td>
+                        <td>Healthcare</td>
+                        <td><strong>Industry-agnostic</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section id="architecture">
+        <h2>Architecture</h2>
+
+        <div id="schemas">
+            <h3>Snowflake-Native Schema Design</h3>
+            <p>Entity Vault is organized into six logical schemas, each handling a distinct concern:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Schema</th>
+                        <th>Purpose</th>
+                        <th>Key Objects</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>CORE</code></td>
+                        <td>Canonical entity storage</td>
+                        <td>ENTITIES, IDENTIFIERS, METADATA</td>
+                    </tr>
+                    <tr>
+                        <td><code>RESOLUTION</code></td>
+                        <td>Identity matching and deduplication</td>
+                        <td>RESOLUTION_LOG, MATCH_CANDIDATES</td>
+                    </tr>
+                    <tr>
+                        <td><code>ENCODING</code></td>
+                        <td>Partner-specific key generation</td>
+                        <td>ENCODINGS, NAMESPACES, HMAC_KEYS</td>
+                    </tr>
+                    <tr>
+                        <td><code>ENRICHMENT</code></td>
+                        <td>Contributed metadata and groups</td>
+                        <td>CONTRIBUTIONS, SCHEMAS, GROUPS</td>
+                    </tr>
+                    <tr>
+                        <td><code>POLICY</code></td>
+                        <td>Access control and consent</td>
+                        <td>CONSENT_RECORDS, SUPPRESSIONS, POLICIES</td>
+                    </tr>
+                    <tr>
+                        <td><code>AUDIT</code></td>
+                        <td>Complete operation history</td>
+                        <td>AUDIT_LOG, ACCESS_EVENTS</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="resolution-strategy">
+            <h3>Resolution Strategy Chain</h3>
+            <p>When an entity is submitted for resolution, the system evaluates match candidates through a tiered strategy:</p>
+
+            <div class="flow-step">
+                <div class="flow-step-num">1</div>
+                <div class="flow-step-content">
+                    <p><strong><span class="tier"><span class="tier-dot tier-1"></span></span>Tier 1 &mdash; Exact Hash Match</strong></p>
+                    <p>SHA-256 hash of normalized identifiers is compared against the identifier index. Deterministic, zero ambiguity. If a match is found, the existing entity is returned immediately.</p>
+                </div>
+            </div>
+
+            <div class="flow-step">
+                <div class="flow-step-num">2</div>
+                <div class="flow-step-content">
+                    <p><strong><span class="tier"><span class="tier-dot tier-2"></span></span>Tier 2 &mdash; Cortex Search Hybrid Match</strong></p>
+                    <p>Metadata fields are embedded and searched via Snowflake Cortex Search Service. Combines semantic similarity with structured attribute matching. Returns candidates above a configurable confidence threshold.</p>
+                </div>
+            </div>
+
+            <div class="flow-step">
+                <div class="flow-step-num">3</div>
+                <div class="flow-step-content">
+                    <p><strong><span class="tier"><span class="tier-dot tier-4"></span></span>Tier 4 &mdash; Create New Entity</strong></p>
+                    <p>If no match exceeds the confidence threshold, a new canonical entity is minted with a system-generated UUID. The submitted identifiers and metadata are attached as the founding record.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="encoding">
+            <h3>HMAC-Based Encoding</h3>
+            <p>Encodings are generated using HMAC-SHA256 with namespace-scoped secret keys. This ensures:</p>
+            <ul>
+                <li><strong>Irreversibility:</strong> An encoded key cannot be reversed to recover the entity UUID or any PII</li>
+                <li><strong>Determinism:</strong> The same entity + namespace always produces the same encoded key, enabling join operations</li>
+                <li><strong>Namespace Isolation:</strong> Partner A's key for Entity X is cryptographically unrelated to Partner B's key for the same entity</li>
+            </ul>
+            <pre><code>encoded_key = HMAC-SHA256(
+    key   = namespace_secret,
+    data  = entity_uuid || namespace_id
+)
+-- Output: 64-char hex string, unique per (entity, namespace) pair</code></pre>
+        </div>
+
+        <div id="policy-engine">
+            <h3>Policy Engine</h3>
+            <p>Every data flow passes through the policy engine, which evaluates three policy dimensions:</p>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>Consent Policies</h4>
+                    <p>Entity-level opt-in/opt-out records that control whether data can flow to a given namespace or use case.</p>
+                </div>
+                <div class="card">
+                    <h4>Suppression Policies</h4>
+                    <p>Hard blocks that override all other policies. Used for regulatory holds, legal requests, and entity-initiated deletion.</p>
+                </div>
+                <div class="card">
+                    <h4>Transcode Policies</h4>
+                    <p>Govern whether a key from Namespace A can be translated to Namespace B. Requires explicit bidirectional approval.</p>
+                </div>
+            </div>
+            <p><strong>Clearance Levels</strong> provide a hierarchical access model for metadata fields:</p>
+            <ul>
+                <li><code>LEVEL_1</code> &mdash; Public aggregate data (segment membership counts)</li>
+                <li><code>LEVEL_2</code> &mdash; Non-identifying enrichment (behavioral scores, propensity models)</li>
+                <li><code>LEVEL_3</code> &mdash; Identifiable attributes (name, email hash, phone hash)</li>
+                <li><code>LEVEL_4</code> &mdash; Full internal access (raw PII, system metadata)</li>
+            </ul>
+        </div>
+
+        <div id="arch-diagram">
+            <h3>Architecture Diagram</h3>
+            <div class="diagram">
+                                        ┌─────────────────────────────────────────────────────────┐
+                           │                    ENTITY VAULT                          │
+                           │                  (Snowflake Account)                     │
+                           │                                                         │
+  ┌──────────┐            │  ┌──────────┐    ┌────────────┐    ┌──────────────┐     │
+  │ Partner  │──Resolve──▶│  │   CORE   │◀──▶│ RESOLUTION │    │    POLICY    │     │
+  │    A     │            │  │          │    │            │    │              │     │
+  └──────────┘            │  │ Entities │    │ Tier 1: Hash│   │ Consent      │     │
+                           │  │ Idents   │    │ Tier 2: AI  │    │ Suppression  │     │
+  ┌──────────┐            │  │ Metadata │    │ Tier 4: New │    │ Transcode    │     │
+  │ Partner  │──Encode───▶│  └──────────┘    └────────────┘    └──────┬───────┘     │
+  │    B     │            │       │                                     │             │
+  └──────────┘            │       ▼                                     │             │
+                           │  ┌──────────┐    ┌────────────┐           │             │
+  ┌──────────┐            │  │ ENCODING │    │ ENRICHMENT │◀──────────┘             │
+  │ Partner  │──Transcode▶│  │          │    │            │                         │
+  │    C     │            │  │ HMAC-256 │    │ Contribute │    ┌──────────────┐     │
+  └──────────┘            │  │ Namespace│    │ Groups     │    │    AUDIT     │     │
+                           │  │ Scoped   │    │ Schemas    │    │  Full trace  │     │
+                           │  └──────────┘    └────────────┘    └──────────────┘     │
+                           │                                                         │
+                           └─────────────────────────────────────────────────────────┘
+            </div>
+        </div>
+    </section>
+
+    <!-- USE CASES -->
+    <section id="use-cases">
+        <h2>Use Cases</h2>
+
+        <div id="uc-golden-record" class="card">
+            <h4>1. Golden Record</h4>
+            <p>Retrieve the canonical representation of an entity with all classified metadata. The golden record consolidates identifiers, enrichment data, and system metadata into a single authoritative view, filtered by the requester's clearance level.</p>
+            <pre><code>GET /entity/{entity_id}/golden-record?clearance=LEVEL_2
+
+Response:
+{
+  "entity_id": "uuid-...",
+  "entity_type": "PERSON",
+  "metadata": { ... filtered by clearance ... },
+  "identifiers": [ ... non-PII identifiers ... ],
+  "last_resolved": "2024-12-01T..."
+}</code></pre>
+        </div>
+
+        <div id="uc-resolution" class="card">
+            <h4>2. Resolution</h4>
+            <p>Submit one or more identifiers and/or metadata attributes to find the matching canonical entity. If no match exists above the confidence threshold, a new entity is created. The resolution tier used is returned in the response for transparency.</p>
+            <pre><code>POST /resolve
+{
+  "identifiers": [{"type": "EMAIL_HASH", "value": "a1b2c3..."}],
+  "metadata": {"first_name": "John", "zip": "94105"},
+  "create_if_missing": true
+}</code></pre>
+        </div>
+
+        <div id="uc-encoding" class="card">
+            <h4>3. Encoding</h4>
+            <p>Generate a partner-specific encoded key for an entity. The key is deterministic (same inputs always yield same output) but irreversible. Partners use these keys as join keys in their own systems.</p>
+            <pre><code>POST /encode
+{
+  "entity_id": "uuid-...",
+  "namespace": "partner_a_prod"
+}
+// Returns: { "encoded_key": "7f3a9b..." }</code></pre>
+        </div>
+
+        <div id="uc-transcoding" class="card">
+            <h4>4. Transcoding</h4>
+            <p>Translate an encoded key from one partner namespace to another, subject to transcode policy approval. Both the source and destination namespaces must have an active transcode policy permitting the translation. The vault resolves the source key to the internal entity, then re-encodes for the target namespace.</p>
+            <pre><code>POST /transcode
+{
+  "source_namespace": "partner_a_prod",
+  "source_key": "7f3a9b...",
+  "target_namespace": "partner_b_prod"
+}
+// Policy check: TRANSCODE_POLICY(A→B) must be ACTIVE</code></pre>
+        </div>
+
+        <div id="uc-enrichment" class="card">
+            <h4>5. Enrichment Out</h4>
+            <p>Batch retrieval of metadata for a set of entities, filtered by the requester's clearance level and active consent policies. Useful for building audience segments or enriching partner datasets with permissioned attributes.</p>
+            <pre><code>POST /enrich/batch
+{
+  "entity_ids": ["uuid-1", "uuid-2", ...],
+  "fields": ["age_range", "income_bracket", "interest_scores"],
+  "namespace": "partner_a_prod",
+  "clearance": "LEVEL_2"
+}</code></pre>
+        </div>
+
+        <div id="uc-groups" class="card">
+            <h4>6. Create Group</h4>
+            <p>Define structured entity groupings&mdash;households, organizations, audience segments, or custom taxonomies. Groups are first-class objects with their own metadata, membership rules, and policy controls. Supports the group marketplace where partners can discover and subscribe to shared segment definitions.</p>
+            <pre><code>POST /groups
+{
+  "group_type": "HOUSEHOLD",
+  "name": "Smith Household - 94105",
+  "members": ["uuid-1", "uuid-2", "uuid-3"],
+  "metadata": {"address_hash": "d4e5f6..."}
+}</code></pre>
+        </div>
+
+        <div id="uc-contributions" class="card">
+            <h4>7. Contributions (Enrich In)</h4>
+            <p>Partners contribute metadata back to entities they have a relationship with. Contributions follow a schema-registered, versioned format. Each contribution is stamped with provenance (who, when, schema version) and becomes available to other authorized consumers based on policy.</p>
+            <pre><code>POST /contribute
+{
+  "entity_id": "uuid-...",
+  "namespace": "partner_a_prod",
+  "schema": "purchase_behavior_v2",
+  "payload": {
+    "last_purchase_date": "2024-11-15",
+    "lifetime_value_tier": "HIGH",
+    "category_affinities": ["electronics", "outdoor"]
+  }
+}</code></pre>
+        </div>
+    </section>
+
+    <!-- DATA MODEL -->
+    <section id="data-model">
+        <h2>Data Model</h2>
+
+        <div id="key-tables">
+            <h3>Key Tables &amp; Relationships</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Table</th>
+                        <th>Schema</th>
+                        <th>Description</th>
+                        <th>Key Relationships</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>ENTITIES</code></td>
+                        <td>CORE</td>
+                        <td>Canonical entity records with UUID primary key, entity type, and creation timestamp</td>
+                        <td>Parent of IDENTIFIERS, METADATA, ENCODINGS</td>
+                    </tr>
+                    <tr>
+                        <td><code>IDENTIFIERS</code></td>
+                        <td>CORE</td>
+                        <td>Typed identifier values linked to entities (email hash, phone hash, device ID, etc.)</td>
+                        <td>FK &rarr; ENTITIES</td>
+                    </tr>
+                    <tr>
+                        <td><code>METADATA</code></td>
+                        <td>CORE</td>
+                        <td>Key-value metadata with classification level and provenance tracking</td>
+                        <td>FK &rarr; ENTITIES, classified by level</td>
+                    </tr>
+                    <tr>
+                        <td><code>ENCODINGS</code></td>
+                        <td>ENCODING</td>
+                        <td>Materialized HMAC encodings per (entity, namespace) pair</td>
+                        <td>FK &rarr; ENTITIES, FK &rarr; NAMESPACES</td>
+                    </tr>
+                    <tr>
+                        <td><code>NAMESPACES</code></td>
+                        <td>ENCODING</td>
+                        <td>Partner namespace definitions with HMAC key references</td>
+                        <td>Parent of ENCODINGS</td>
+                    </tr>
+                    <tr>
+                        <td><code>CONTRIBUTIONS</code></td>
+                        <td>ENRICHMENT</td>
+                        <td>Versioned partner-contributed metadata payloads</td>
+                        <td>FK &rarr; ENTITIES, FK &rarr; SCHEMAS</td>
+                    </tr>
+                    <tr>
+                        <td><code>GROUPS</code></td>
+                        <td>ENRICHMENT</td>
+                        <td>Named entity groupings with type and membership</td>
+                        <td>M:N with ENTITIES via GROUP_MEMBERS</td>
+                    </tr>
+                    <tr>
+                        <td><code>CONSENT_RECORDS</code></td>
+                        <td>POLICY</td>
+                        <td>Per-entity, per-namespace consent status with effective dates</td>
+                        <td>FK &rarr; ENTITIES, FK &rarr; NAMESPACES</td>
+                    </tr>
+                    <tr>
+                        <td><code>AUDIT_LOG</code></td>
+                        <td>AUDIT</td>
+                        <td>Immutable log of all vault operations with actor, action, and payload hash</td>
+                        <td>References all schemas</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="classification">
+            <h3>Metadata Classification</h3>
+            <p>All metadata stored in the vault is classified into one of three tiers that determine visibility and policy enforcement:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Classification</th>
+                        <th>Visibility</th>
+                        <th>Examples</th>
+                        <th>Policy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge badge-accent">INTERNAL</span></td>
+                        <td>System only</td>
+                        <td>Raw PII, source system IDs, internal scores</td>
+                        <td>Never exposed externally. Used for resolution only.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-warning">IDENTIFIABLE</span></td>
+                        <td>Clearance Level 3+</td>
+                        <td>Hashed email, hashed phone, device IDs</td>
+                        <td>Requires explicit consent. Audit-logged on every access.</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-success">ENRICHMENT</span></td>
+                        <td>Clearance Level 2+</td>
+                        <td>Age range, interest scores, segment membership</td>
+                        <td>Available to authorized partners per consent policy.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="callout">
+                <p><strong>Classification Hierarchy:</strong> INTERNAL &gt; IDENTIFIABLE &gt; ENRICHMENT. A higher-classified field is never returned to a requester with insufficient clearance, regardless of other policy settings.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- API & UI -->
+    <section id="api-ui">
+        <h2>API &amp; UI</h2>
+
+        <div id="fastapi">
+            <h3>FastAPI Backend</h3>
+            <p>The backend is a FastAPI application that acts as a proxy layer between the React frontend and Snowflake. It handles authentication, request validation, and translates REST calls into Snowflake SQL/procedure invocations.</p>
+            <ul>
+                <li><strong>Architecture:</strong> Stateless proxy &mdash; no entity data is cached or stored in the application layer</li>
+                <li><strong>Authentication:</strong> Snowflake connection credentials, with support for key-pair and OAuth flows</li>
+                <li><strong>Endpoints:</strong> RESTful resources for each use case (resolve, encode, transcode, enrich, contribute, groups)</li>
+                <li><strong>Validation:</strong> Pydantic models enforce request schema before Snowflake interaction</li>
+                <li><strong>Error Handling:</strong> Snowflake errors are translated to appropriate HTTP status codes with structured error bodies</li>
+            </ul>
+            <pre><code># Core endpoint structure
+app = FastAPI(title="Entity Vault API")
+
+@app.post("/resolve")       # Resolution with tiered strategy
+@app.post("/encode")        # Namespace-scoped HMAC encoding
+@app.post("/transcode")     # Policy-gated key translation
+@app.post("/enrich/batch")  # Clearance-filtered metadata retrieval
+@app.post("/contribute")    # Schema-validated metadata ingestion
+@app.post("/groups")        # Entity group management
+@app.get("/entity/{id}")    # Golden record retrieval</code></pre>
+        </div>
+
+        <div id="react-ui">
+            <h3>React Frontend</h3>
+            <p>The frontend is a React single-page application with a dark-themed interface designed for data operations. It provides visual workflows for each use case and real-time feedback on resolution confidence, policy evaluation, and audit trails.</p>
+            <ul>
+                <li><strong>Theme:</strong> Dark interface matching the Snowflake design language (navy backgrounds, cyan accents)</li>
+                <li><strong>Components:</strong> Entity search, resolution wizard, encoding dashboard, policy manager, contribution inbox</li>
+                <li><strong>State Management:</strong> React hooks with context for session state (active namespace, clearance level)</li>
+                <li><strong>Visualization:</strong> Resolution confidence scores, entity relationship graphs, group membership views</li>
+            </ul>
+        </div>
+
+        <div id="demo-mode">
+            <h3>Demo Mode</h3>
+            <p>The application supports a fully functional demo mode that generates random but realistic entity data on-the-fly. This enables exploration of all vault capabilities without requiring a populated Snowflake backend.</p>
+            <ul>
+                <li><strong>Random Generation:</strong> Synthetic entities with plausible names, identifiers, and metadata distributions</li>
+                <li><strong>Simulated Resolution:</strong> Demonstrates tier progression with configurable match rates</li>
+                <li><strong>Policy Simulation:</strong> Pre-configured consent scenarios showing permit/deny flows</li>
+                <li><strong>No Dependencies:</strong> Runs entirely client-side when the backend is unavailable</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- FUTURE DIRECTIONS -->
+    <section id="future">
+        <h2>Future Directions</h2>
+
+        <div id="ontology-layer">
+            <h3>Ontology Layer</h3>
+            <p>A formal OWL-style metadata system that enables semantic queries across entity types, contribution schemas, and group structures. The ontology layer introduces 22 <code>ONT_*</code> tables that define classes, properties, and relationships in a machine-readable format.</p>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>ONT_CLASS</h4>
+                    <p>Defines entity type hierarchies (PERSON is-a ENTITY, EMPLOYEE is-a PERSON). Enables inheritance of properties and policies.</p>
+                </div>
+                <div class="card">
+                    <h4>ONT_PROPERTY</h4>
+                    <p>Typed metadata field definitions with domain/range constraints. Maps contribution schema fields to semantic meaning.</p>
+                </div>
+                <div class="card">
+                    <h4>ONT_RELATIONSHIP</h4>
+                    <p>Named, typed edges between entity classes (PERSON works_at COMPANY, PRODUCT sold_at LOCATION). Enables graph traversal queries.</p>
+                </div>
+            </div>
+            <p>Integration with the <strong>ontology-stack-builder</strong> enables automated generation of all 22 ONT_* tables from existing schema introspection, bootstrapping the ontology from the data that already exists in the vault.</p>
+        </div>
+
+        <div id="postgres-backend">
+            <h3>Snowflake Postgres Backend</h3>
+            <p>A hybrid write/read architecture that uses Snowflake Postgres for the transactional write path and Snowflake's analytical engine for the read path.</p>
+            <ul>
+                <li><strong>Write Path:</strong> Entities, identifiers, and encodings are written via Postgres, providing ACID transactional consistency and sub-millisecond write latency</li>
+                <li><strong>CDC Mirroring:</strong> Change Data Capture streams Postgres writes to Snowflake tables in near-real-time, maintaining a synchronized read replica</li>
+                <li><strong>Read Path:</strong> Cortex Search Service indexes the mirrored Snowflake data, enabling the hybrid resolution strategy at analytical scale</li>
+                <li><strong>Benefits:</strong> Transactional consistency for writes (critical for encoding determinism), Snowflake's elastic compute for reads and AI-powered resolution</li>
+            </ul>
+            <div class="diagram">
+  Write Path                           Read Path
+  ─────────                           ─────────
+  ┌──────────┐     CDC      ┌──────────────────┐     Cortex Search
+  │ Snowflake│────────────▶ │   Snowflake      │────────────────────▶ Resolution
+  │ Postgres │  (streaming) │   (Analytical)   │                      Queries
+  └──────────┘              └──────────────────┘
+       ▲                            ▲
+       │                            │
+   Entities                    Batch Enrichment
+   Identifiers                 Golden Records
+   Encodings                   Group Queries
+            </div>
+        </div>
+
+        <div id="marketplace-scaling">
+            <h3>Contribution Marketplace Scaling</h3>
+            <p>Evolving the contribution system into a full marketplace with quality guarantees and economic incentives:</p>
+            <ul>
+                <li><strong>Versioned Schemas:</strong> Formal schema evolution with backward/forward compatibility rules, deprecation timelines, and migration paths</li>
+                <li><strong>Quality Scoring:</strong> Automated assessment of contribution freshness, coverage, accuracy, and consistency against the canonical record</li>
+                <li><strong>Freshness Tracking:</strong> SLA-driven monitoring that alerts when contributions exceed their declared refresh interval</li>
+                <li><strong>Economic Model:</strong> Contribution value scoring based on uniqueness, coverage gap filling, and downstream consumption metrics</li>
+            </ul>
+        </div>
+
+        <div id="multi-entity">
+            <h3>Multi-Entity Resolution</h3>
+            <p>Extending the resolution engine to handle cross-type entity relationships, enabling graph-style queries across the entity universe:</p>
+            <ul>
+                <li><strong>Cross-Type Links:</strong> PRODUCT belongs_to COMPANY, sold_at LOCATION, purchased_by PERSON</li>
+                <li><strong>Relationship Resolution:</strong> Given a PERSON entity, resolve all related COMPANY entities via employment records</li>
+                <li><strong>Graph Traversal:</strong> Multi-hop queries (find all PRODUCTs sold at LOCATIONs owned by COMPANY X)</li>
+                <li><strong>Federated Resolution:</strong> Resolve entities using relationship context as additional signal (person at this company at this address)</li>
+            </ul>
+        </div>
+    </section>
+
+</main>
+
+</body>
+</html>
